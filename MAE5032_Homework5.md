@@ -434,7 +434,7 @@ dset_data[3][2][1]:512
 Profiling timer expired
 ```
 
-说明程序搜集到约1200多万个事件，并写入了callgrind.out..215180，执行
+说明程序搜集到约1200多万个事件，并写入了callgrind.out.215180，执行
 
 ```bash
 callgrind_annotate --auto=yes callgrind.out.215180 
@@ -470,6 +470,41 @@ Ir         file:function
 
 
 ### 3.
+
+**PC**
+
+执行下列命令下载源码
+
+```bash
+mkdir ~/projects
+cd ~/projects
+git clone -b release https://gitlab.com/petsc/petsc
+cd petsc
+```
+
+进行配置
+
+```bash
+./configure --download-mpich --download-fblaslapack
+```
+
+![image-20220430223754027](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430223754027.png)
+
+使用make构建
+
+```bash
+make PETSC_DIR=/home/cph/projects/petsc PETSC_ARCH=arch-linux-c-debug all
+```
+
+![image-20220430224217940](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430224217940.png)
+
+测试
+
+```bash
+make check
+```
+
+![image-20220430224228534](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430224228534.png)
 
 
 

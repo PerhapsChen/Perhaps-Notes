@@ -28,7 +28,7 @@ GROUP "/" {
 
 **HDFView**
 
-![image-20220430162541489](D:/perhapschen.github.io/img/image-20220430162541489.png)
+![image-20220430162541489](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430162541489.png)
 
 **文件访问模式**
 
@@ -68,7 +68,7 @@ GROUP "/" {
 
 **HDFView**
 
-![image-20220430165046876](D:/perhapschen.github.io/img/image-20220430165046876.png)
+![image-20220430165046876](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430165046876.png)
 
 
 

@@ -4,6 +4,19 @@
 
 ### 1.
 
+**太乙可执行文件位置 `/work/ese-chenph/MAE_HW5/MAE5032-2022-spring/hdf5-tutorial-code`/**
+
+**在对应的build文件夹的main文件。**
+
+**其中题目e的可执行文件需要连接动态库**
+
+```bash
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/work/ese-chenph/lib/hdf5-1.12.1/lib/
+./a.out
+```
+
+
+
 #### (a)
 
 **使用CMake&&Makefile生成可执行文件**

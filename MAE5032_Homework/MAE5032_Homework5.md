@@ -434,7 +434,7 @@ dset_data[3][2][1]:512
 Profiling timer expired
 ```
 
-说明程序搜集到越1200多万个时间，并写入了callgrind.out..215180，执行
+说明程序搜集到约1200多万个事件，并写入了callgrind.out..215180，执行
 
 ```bash
 callgrind_annotate --auto=yes callgrind.out.215180 

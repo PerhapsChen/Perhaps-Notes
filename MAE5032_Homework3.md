@@ -6,11 +6,11 @@
 
 ### **其中HW3.X对应第X题的作业，`mat.h` 定义了一些要用到的函数。**
 
-![image-20220411222746963](D:/perhapschen.github.io/img/image-20220411222746963.png)
+![image-20220411222746963](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220411222746963.png)
 
 #### **每个HW3.X文件夹下都对应有源代码、Makefile和太乙任务脚本及运行结果**
 
-![image-20220411222805203](D:/perhapschen.github.io/img/image-20220411222805203.png)
+![image-20220411222805203](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220411222805203.png)
 
 
 
@@ -40,7 +40,7 @@
 
 - 对比Matlab，结果正确
 
-  ![image-20220411142135032](D:/perhapschen.github.io/img/image-20220411142135032.png)
+  ![image-20220411142135032](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220411142135032.png)
 
 #### (2)
 
@@ -98,7 +98,7 @@
 
 - **baseline performance 如图所示**
 
-![下载 (1)](D:/perhapschen.github.io/img/%E4%B8%8B%E8%BD%BD%20(1)-16495900667111.png)
+![下载 (1)](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/%E4%B8%8B%E8%BD%BD%20(1)-16495900667111.png)
 
 #### (3)
 
@@ -126,7 +126,7 @@
 
   **可见分块计算能有效提高计算效率。**
 
-  ![下载](D:/perhapschen.github.io/img/%E4%B8%8B%E8%BD%BD-16495903491812.png)
+  ![下载](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/%E4%B8%8B%E8%BD%BD-16495903491812.png)
 
 #### (4) 
 

@@ -6,16 +6,11 @@
 
 **太乙可执行文件位置 `/work/ese-chenph/MAE_HW5/MAE5032-2022-spring/hdf5-tutorial-code`/**
 
-**在对应的build文件夹的main文件。**
-
-**其中题目e的可执行文件需要连接动态库**
+**在对应的build文件夹的main文件。** **可能需要连接动态库**
 
 ```bash
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/work/ese-chenph/lib/hdf5-1.12.1/lib/
-./a.out
 ```
-
-
 
 #### (a)
 
@@ -484,7 +479,7 @@ Ir         file:function
 
 ### 3.
 
-**PC**
+**PC上PETSC的安装**
 
 执行下列命令下载源码
 
@@ -521,7 +516,7 @@ make check
 
 
 
-**TaiYi**
+**TaiYi上PETSC的安装**
 
 下载完petsc及其依赖项后，执行下面的命令进行配置
 

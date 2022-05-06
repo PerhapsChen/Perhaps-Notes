@@ -475,7 +475,9 @@ Ir         file:function
 
 ### 2.
 
+**我们选择的Final Projecet是Problem A，小组成员有黄灏和陈鹏翰。**
 
+**项目Github地址  https://github.com/PerhapsChen/MAE5032_FinalProject**
 
 ### 3.
 

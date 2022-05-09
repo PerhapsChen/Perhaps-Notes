@@ -4,6 +4,16 @@
 
 ### 1.
 
+**太乙工作目录`/work/ese-chenph/MAE_HW5/MAE5032-2022-spring/hdf5-tutorial-code/`**
+
+**编译连接信息在`CmakeAndMakefileInfo.log`文件中**
+
+**输出信息在$LSB_JOBID.log文件中**，**其中例5的valgrind信息在valgrind.log中，gprof输出信息在prifile.txt中，callgrind输出信息在callgrind.log中**
+
+
+
+以下内容为在本地ubuntu上的测试过程
+
 #### (a)
 
 **使用CMake&&Makefile生成可执行文件**
@@ -49,26 +59,30 @@ GROUP "/" {
 **h5dump**
 
 ```bash
-(base) cph@CPHdell:~/GitHub_PROJ/MAE5032-2022-spring/hdf5-tutorial-code/ex-02-dataset/build$ /usr/local/bin/h5dump dset.h5 
-HDF5 "dset.h5" {
+(base) cph@CPHdell:~/GitHub_PROJ/MAE5032-2022-spring/hdf5-tutorial-code/ex-02-dataset/build$ /usr/local/bin/h5dump SDS.h5 
+HDF5 "SDS.h5" {
 GROUP "/" {
-   DATASET "dset" {
+   DATASET "IntArray" {
       DATATYPE  H5T_STD_I32BE
-      DATASPACE  SIMPLE { ( 4, 6 ) / ( 4, 6 ) }
+      DATASPACE  SIMPLE { ( 5, 6, 4 ) / ( 5, 6, 4 ) }
       DATA {
-      (0,0): 0, 0, 0, 0, 0, 0,
-      (1,0): 0, 0, 0, 0, 0, 0,
-      (2,0): 0, 0, 0, 0, 0, 0,
-      (3,0): 0, 0, 0, 0, 0, 0
+      (0,0,0): 0, 0, 0, 0,
+      (0,1,0): 0, 0, 0, 0,
+      (0,2,0): 0, 0, 0, 0,
+      (0,3,0): 0, 0, 0, 0,
+	  #.........
+      (4,4,0): 0, 0, 0, 0,
+      (4,5,0): 0, 0, 0, 0
       }
    }
 }
 }
+
 ```
 
 **HDFView**
 
-![image-20220430165046876](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430165046876.png)
+![image-20220509145840237](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220509145840237.png)
 
 
 
@@ -115,41 +129,6 @@ hid_t H5Screate_simple( int rank,
 
 
 #### (c)
-
-**似乎没有SDS.h文件，导致程序无法运行**
-
-创建SDS.h文件
-
-```c
-#define FILE "SDS.h5"
-
-hid_t file_id, dataset_id; /* identifiers */
-herr_t status;
-hid_t dataspace_id;
-
-hsize_t dims[3];
-file_id = H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-dims[0] = 5; 
-dims[1] = 6;
-dims[2] = 4; 
-dataspace_id = H5Screate_simple(3, dims, NULL);
-dataset_id = H5Dcreate2(file_id, "/IntArray", H5T_STD_I32BE, dataspace_id, 
-                      H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-status = H5Dclose(dataset_id);
-status = H5Sclose(dataspace_id);
-status = H5Fclose(file_id);
-```
-
-对上述生成的文件执行写操作和读操作
-
-```c
-status = H5Dwrite(dataset_id, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, dset_data);
-
-status = H5Dread(dataset_id, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, dset_data);
-printf("dset_data[3][2][1]:%2d\n", dset_data[3][1][2]);
-
-// output: dset_data[3][2][1]:512
-```
 
 **h5dump**
 
@@ -199,7 +178,7 @@ GROUP "/" {
 
 **HDFView**
 
-![image-20220430191928983](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430191928983.png)
+![image-20220509145912472](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220509145912472.png)
 
 **H5Dread**
 
@@ -434,7 +413,7 @@ dset_data[3][2][1]:512
 Profiling timer expired
 ```
 
-说明程序搜集到约1200多万个事件，并写入了callgrind.out..215180，执行
+说明程序搜集到约1200多万个事件，并写入了callgrind.out.215180，执行
 
 ```bash
 callgrind_annotate --auto=yes callgrind.out.215180 
@@ -467,3 +446,79 @@ Ir         file:function
 
 ### 2.
 
+**我们选择的Final Projecet是Problem A，小组成员有黄灏和陈鹏翰。**
+
+**项目Github地址  https://github.com/PerhapsChen/MAE5032_FinalProject**
+
+### 3.
+
+**PC上PETSC的安装**
+
+执行下列命令下载源码
+
+```bash
+mkdir ~/projects
+cd ~/projects
+git clone -b release https://gitlab.com/petsc/petsc
+cd petsc
+```
+
+进行配置
+
+```bash
+./configure --download-mpich --download-fblaslapack
+```
+
+![image-20220430223754027](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430223754027.png)
+
+使用make构建
+
+```bash
+make PETSC_DIR=/home/cph/projects/petsc PETSC_ARCH=arch-linux-c-debug all
+```
+
+![image-20220430224217940](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430224217940.png)
+
+测试
+
+```bash
+make check
+```
+
+![image-20220430224228534](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430224228534.png)
+
+
+
+**TaiYi上PETSC的安装**
+
+下载完petsc及其依赖项后，执行下面的命令进行配置
+
+```bash
+./configure --with-mpi-dir=/share/intel/2018u4/compilers_and_libraries_2018.5.274/linux/mpi/intel64/ --with-blaslapack-dir=/share/intel/2018u4/compilers_and_libraries_2018.5.274/linux/mkl --with-debugging=no --prefix=/work/ese-chenph/lib/petsc-3.16.6-opt --download-hypre=/work/ese-chenph/petsc-3.16.6-extlibs/hypre-2.23.0.tar.gz --download-mumps=/work/ese-chenph/petsc-3.16.6-extlibs/petsc-pkg-mumps-6d1470374d32.tar.gz --download-metis=/work/ese-chenph/petsc-3.16.6-extlibs/petsc-pkg-metis-c8d2dc1e751e.tar.gz --download-hdf5=/work/ese-chenph/petsc-3.16.6-extlibs/hdf5-1.12.1.tar.bz2 COPTFLAGS="-O3 -march=native -mtune=native" CXXOPTFLAGS="-O3 -march=native -mtune=native" FOPTFLAGS="-O3 -march=native -mtune=native" --with-scalapack-include=/share/intel/2018u4/compilers_and_libraries_2018.5.274/linux/mkl/include --with-scalapack-lib="-L/share/intel/2018u4/compilers_and_libraries_2018.5.274/linux/mkl/lib/intel64/ -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64"
+```
+
+![image-20220430220843358](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430220843358.png)
+
+执行make进行构建
+
+```bash
+make PETSC_DIR=/work/ese-chenph/download/petsc-3.16.6 PETSC_ARCH=arch-linux2-c-opt all
+```
+
+![image-20220430221056259](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430221056259.png)
+
+安装
+
+```bash
+make PETSC_DIR=/work/ese-chenph/download/petsc-3.16.6 PETSC_ARCH=arch-linux2-c-opt install
+```
+
+![image-20220430221519016](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430221519016.png)
+
+测试
+
+```bash
+make PETSC_DIR=/work/ese-chenph/lib/petsc-3.16.6-opt PETSC_ARCH=arch-linux2-c-opt PETSC_ARCH="" check
+```
+
+![image-20220430221823595](https://raw.githubusercontent.com/PerhapsChen/picgo_pic/main/image-20220430221823595.png)

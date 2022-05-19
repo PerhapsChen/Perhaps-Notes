@@ -14,7 +14,7 @@
 
 #### **ex1-demo**
 
-相关参数解释
+相关FLAG解释
 
 | FLAG                                                         | 功能                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -47,5 +47,45 @@ mpirun -np 2 ./ex1.out -ksp_type richardson -pc_type asm \
   -log_view
 ```
 
-输出中使用`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`区分不同的调试
+输出文件`3733712-petsc.out`中使用`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`区分不同的调试
+
+
+
+#### ex2-basic
+
+内容是PETSc程序初始化及打印
+
+```
+mpirun -np 1 ./ex2.out
+
+mpirun -np 2 ./ex2.out
+
+mpirun -np 3 ./ex2.out
+
+mpirun -np 4 ./ex2.out -log_view
+```
+
+分别使用1~4个处理器内核进行任务，发现打印对应数量的字符串
+
+```
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+=COMAND LINE=
+mpirun -np 3 ./ex2.out
+=OUTPUT=
+Number of processors = 3, rank = 0
+Hello World from rank 0 
+Hello World from rank 1 
+Hello World from rank 2 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+**部分函数解释**
+
+| 函数名                                       | 功能                                                         |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| **PetscInitialize**()                        | 初始化PETSc及MPI                                             |
+| **MPI_Comm_size()**<br />**MPI_Comm_rank()** | 确定communicator的rank和size                                 |
+| **PetscPrintf()**                            | PETSC_COMM_WORLD，整个comm单一打印<br />PETSC_COMM_SELF，所有的进程各自打印 |
+| **MPI_Barrier()**                            | 阻塞，等待所有进程运行至此                                   |
+| **PetscFinalize()**                          | 终止PETSc程序                                                |
 

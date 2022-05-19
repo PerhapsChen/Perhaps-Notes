@@ -1,6 +1,8 @@
 # Homework6
 
 > 12132191 陈鹏翰
+>
+> 可以前往[Github网页](https://github.com/PerhapsChen/Perhaps-Notes/blob/main/MAE5032_Homework/MAE5032_Homework6.md)获得更好的阅读体验
 
 ## 1.
 
@@ -30,6 +32,8 @@
 进行了5次不同的调试
 
 ```bash
+make ex1.out
+
 mpirun -np 1 ./ex1.out
 
 mpirun -np 1 ./ex1.out -snes_view
@@ -55,7 +59,9 @@ mpirun -np 2 ./ex1.out -ksp_type richardson -pc_type asm \
 
 **内容是PETSc程序初始化及打印**
 
-```
+```bash
+make ex2.out
+
 mpirun -np 1 ./ex2.out
 
 mpirun -np 2 ./ex2.out
@@ -95,7 +101,25 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ### ex3-vec-viewer
 
-**内容主要是创建、查看向量的方式**
+**内容主要是创建（包括setvalue方式和array方式）、查看向量（包括标准输出和ascii文件）的方式**
+
+```bash
+make ex3.out
+
+#创建全局长度为6的vec(代码内设置) 分配给1个processor
+mpirun -np 1 ./ex3.out
+
+#创建全局长度为2的vec 分配给2个processors
+mpirun -np 2 ./ex3.out -n 2
+
+#创建全局长度为6的vec 分配给2个processors
+mpirun -np 2 ./ex3.out -n 6
+
+#创建全局长度为20的vec 分配给4个processors
+mpirun -np 4 ./ex3.out -n 20
+```
+
+太乙任务的具体输出在.out文本文件中
 
 **该例程中部分函数解释**
 
@@ -114,4 +138,93 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 | **PetscViewerCreate()**                      | 创建Viewer对象                                               |
 | **PetscViewerASCIIOpen()**                   | 通过ascii码形式存放数据到指定文件                            |
 | **PetscViewerDestroy()**                     | 释放vec                                                      |
+
+------
+
+### ex4-mat
+
+内容主要是创建稀疏矩阵，对local矩阵的对角线和非对角线部分进行赋值操作，并查看矩阵。
+
+太乙脚本和标准输出文件在ex4-mat文件夹中
+
+```bash
+make ex4.out
+
+mpirun -np 1 ./ex4.out
+
+mpirun -np 2 ./ex4.out
+
+mpirun -np 3 ./ex4.out
+
+mpirun -np 4 ./ex4.out
+```
+
+```
+#其中一个输出 mpirun -np 3 ./ex4.out
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+=COMAND LINE=
+mpirun -np 2 ./ex4.out
+
+=OUTPUT=
+Matrix size is 10 by 10 
+rank [0] rstart = 0 , rend = 5 
+rank [1] rstart = 5 , rend = 10 
+Mat Object: 2 MPI processes
+  type: mpiaij
+row 0: (0, 2.)  (5, 1.) 
+row 1: (1, 2.)  (5, 1.) 
+row 2: (2, 2.)  (5, 1.) 
+row 3: (3, 2.)  (5, 1.) 
+row 4: (4, 2.)  (5, 1.) 
+row 5: (5, 2.) 
+row 6: (6, 2.) 
+row 7: (7, 2.) 
+row 8: (8, 2.) 
+row 9: (9, 2.) 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
+
+**该例程中部分函数的解释**
+
+| 函数名                                       | 功能                                                         |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| **PetscMalloc2()**<br />**PetscFree2()**     | 分配\释放给定两个变量的空间                                  |
+| **MatCreateAIJ()**                           | 创建矩阵，需要给出的信息包括：<br />矩阵大小，可以给出local大小或者global大小<br />矩阵每一行对角线部分非零元素的个数，可以给local或者global<br />矩阵每一行非对角线部分非零元的个数，可以给local或者global |
+| **MatSetFromOptions()**                      | 指定矩阵可以被命令行FLAG配置                                 |
+| **MatSetUp()**                               | 设置内部矩阵数据结构供以后使用                               |
+| **MatGetOwnershipRange()**                   | 获得mat所分配给各进程的初始和结束的行索引                    |
+| **MatGetSize()**                             | 获得mat的形状                                                |
+| **MatSetValue()**                            | 设置给定矩阵给定位置元素的值，可以设置INSERT或者ADD          |
+| **MatAssemblyBegin()<br />MatAssemblyEnd()** | 组装矩阵                                                     |
+| **MatView()**                                | 查看mat，可以选择查看方式                                    |
+| **MatDestroy()**                             | 释放mat                                                      |
+
+------
+
+### ex5-ksp
+
+**该例程创建了一个三对角矩阵A，并与单位向量u相乘，得到b，然后我们希望通过PETSc线性求解器ksp求解Ax=b的数值解（x的解析解即为b），可以通过代码或命令行设置求解器的属性。**
+
+```bash
+make ex5.out
+
+# 查看矩阵和线性求解器
+mpirun -np 2 ./ex5.out -mat_view -ksp_view
+
+# 设置求解器类型为CG，监视求解状态，查看求解器
+mpirun -np 2 ./ex5.out -ksp_type cg -pc_type none  -ksp_monitor  -ksp_view
+
+# 设置求解器类型为GMRES，设置求解器属性，包括绝对/相对容忍误差、最大迭代次数等
+# 设置预处理器的类型及属性
+# 设置查看收敛或发散原因，并查看求解器
+mpirun -np 3 ./ex5.out -ksp_type gmres \
+ -ksp_gmres_restart 30 -ksp_rtol 1.0e-10 \
+ -ksp_atol 1.0e-50 -ksp_max_it 1500 \
+ -ksp_gmres_modifiedgramschmidt \
+ -pc_type asm \
+ -ksp_rtol 1.0e-10 -sub_ksp_type richardson \
+ -sub_pc_type icc -ksp_monitor_short \
+ -ksp_converged_reason \
+ -ksp_view
+```
 

@@ -10,7 +10,7 @@
 
 **`/work/ese-chenph/MAE_HW6/MAE5032-2022-spring/petsc-tutorial-code/`**
 
-**其中ex1~5为tutorial中的例程，太乙任务脚本为对应练习中的`ty_script`，输出均在对应的`$LSB_JOBID.out`文件中** 
+**其中ex1~5为tutorial中的例程，太乙任务脚本为对应练习中的`ty_script`，输出均在对应的`$LSB_JOBID.log`文件中** 
 
 ------
 
@@ -51,7 +51,7 @@ mpirun -np 2 ./ex1.out -ksp_type richardson -pc_type asm \
   -log_view
 ```
 
-输出文件`3733712-petsc.out`中使用`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`区分不同的调试
+输出文件`.log`中使用`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`区分不同的调试
 
 ------
 
@@ -73,7 +73,7 @@ mpirun -np 4 ./ex2.out -log_view
 
 分别使用1~4个处理器内核进行任务，发现打印对应数量的字符串
 
-结果详见太乙输出的.out文件
+结果详见太乙输出的.log文件
 
 ```
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -119,7 +119,7 @@ mpirun -np 2 ./ex3.out -n 6
 mpirun -np 4 ./ex3.out -n 20
 ```
 
-太乙任务的具体输出在.out文本文件中
+太乙任务的具体输出在.log文本文件中
 
 **该例程中部分函数解释**
 
@@ -135,6 +135,7 @@ mpirun -np 4 ./ex3.out -n 20
 | **VecView()**                                | 查看一个vec，可以选择查看的方法                              |
 | **VecGetLocalSize()**                        | 获得vec在当前进程的本地长度n_local                           |
 | **VecGetArray()**<br />**VecRestoreArray()** | 将数组作为vec的存储地址，可以通过操作数组对vec赋值<br />当不需要通过数组操作时候，调用VecRestoreArray()释放。 |
+| **VecDuplicate()**                           | 复制一个向量的值给另一个向量                                 |
 | **PetscViewerCreate()**                      | 创建Viewer对象                                               |
 | **PetscViewerASCIIOpen()**                   | 通过ascii码形式存放数据到指定文件                            |
 | **PetscViewerDestroy()**                     | 释放vec                                                      |
@@ -145,7 +146,7 @@ mpirun -np 4 ./ex3.out -n 20
 
 内容主要是创建稀疏矩阵，对local矩阵的对角线和非对角线部分进行赋值操作，并查看矩阵。
 
-太乙脚本和标准输出文件在ex4-mat文件夹中
+太乙脚本和输出文件在ex4-mat文件夹中
 
 ```bash
 make ex4.out
@@ -203,7 +204,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ### ex5-ksp
 
-**该例程创建了一个三对角矩阵A，并与单位向量u相乘，得到b，然后我们希望通过PETSc线性求解器ksp求解Ax=b的数值解（x的解析解即为b），可以通过代码或命令行设置求解器的属性。**
+**该例程创建了一个三对角矩阵A，并与单位向量u相乘，得到b，然后我们希望通过PETSc线性求解器ksp求解Ax=b的数值解（x的解析解即为b）,查看求解器每次迭代的误差范数，可以通过代码或命令行设置求解器的属性。**
 
 ```bash
 make ex5.out
@@ -227,4 +228,53 @@ mpirun -np 3 ./ex5.out -ksp_type gmres \
  -ksp_converged_reason \
  -ksp_view
 ```
+
+```bash
+# 线性求解器迭代过程中的残差变化
+  0 KSP Residual norm 1.27475 
+  1 KSP Residual norm 0.655856 
+  2 KSP Residual norm 0.499797 
+  3 KSP Residual norm 0.356929 
+  4 KSP Residual norm 0.132518 
+  5 KSP Residual norm < 1.e-11
+# KSP object
+KSP Object: 5 MPI processes
+  type: gmres
+    restart=30, using Modified Gram-Schmidt Orthogonalization
+    happy breakdown tolerance 1e-30
+  maximum iterations=1500, initial guess is zero
+  tolerances:  relative=1e-10, absolute=1e-50, divergence=10000.
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+# PC object
+PC Object: 5 MPI processes
+  type: asm
+    total subdomain blocks = 5, amount of overlap = 1
+    restriction/interpolation type - RESTRICT
+    Local solver information for first block is in the following KSP and PC objects on rank 0:
+    Use -ksp_view ::ascii_info_detail to display information for all blocks
+
+# ......
+-- PETSc Performance Summary: ----
+# ......
+```
+
+所有的输入输出详见太乙脚本及.log文件
+
+**该例程中部分函数**
+
+| 函数名                      | 功能                                                         |
+| --------------------------- | ------------------------------------------------------------ |
+| **MatSetValues()**          | 注意与MatSetValue()的区别，该函数可以指定矩阵哪几行哪几列设置为特定的值，可以选择是INSER还是ADD |
+| **VecSet()**                | 将一个向量的所有元素设置为给定值                             |
+| **MatMult()**               | 矩阵向量乘法                                                 |
+| **KSPCreate()**             | 创建一个线性求解器对象                                       |
+| **KSPSetOperators()**       | 设置线性求解器操作的矩阵，后面两个参数一般情况相同           |
+| **KSPGetPC()**              | 获得求解器对应的预处理器                                     |
+| **PCSetType()**             | 设置预处理器的类型                                           |
+| **KSPSetTolerances()**      | 设置线性求解器的容许误差最大迭代次数等，可以设置为相对或者绝对误差 |
+| **KSPSolve()**              | 通过求解器和右值向量，求解矩阵向量方程                       |
+| **VecAXPY()**               | 执行特定的向量加法，程序中是 x = -1.0*u+x 即求残差           |
+| **VecNorm()**               | 求向量的范数，可以设置为1范数或者2范数等                     |
+| **KSPGetIterationNumber()** | 获得求解器的迭代次数                                         |
 

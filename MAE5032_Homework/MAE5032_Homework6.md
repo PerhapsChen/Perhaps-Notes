@@ -2,7 +2,7 @@
 
 > 12132191 陈鹏翰
 
-### 1.
+## 1.
 
 **本次作业目录为**
 
@@ -12,7 +12,7 @@
 
 
 
-#### **ex1-demo**
+### **ex1-demo**
 
 相关FLAG解释
 
@@ -51,7 +51,7 @@ mpirun -np 2 ./ex1.out -ksp_type richardson -pc_type asm \
 
 
 
-#### ex2-basic
+### ex2-basic
 
 **内容是PETSc程序初始化及打印**
 
@@ -93,7 +93,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 
-#### ex3-vec-viewer
+### ex3-vec-viewer
 
 **内容主要是创建、查看向量的方式**
 

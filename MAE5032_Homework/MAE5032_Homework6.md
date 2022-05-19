@@ -8,11 +8,11 @@
 
 **`/work/ese-chenph/MAE_HW6/MAE5032-2022-spring/petsc-tutorial-code/`**
 
-**其中ex1~5为tutorial中的例程**
+**其中ex1~5为tutorial中的例程，太乙任务脚本为对应练习文件夹中的`ty_script`，的输出均在对应的`$LSB_JOBID.out`文件中** 
 
 
 
-**ex1-demo**
+#### **ex1-demo**
 
 相关参数解释
 
@@ -26,4 +26,26 @@
 | -snes_monitor_short                                          | 在残差范数变小时打印更少的数字                               |
 | -snes_converged_reason                                       | 打印收敛或发散的原因                                         |
 | -log_view                                                    | 打印程序的性能表现等                                         |
+
+进行了5次不同的调试
+
+```bash
+mpirun -np 1 ./ex1.out
+
+mpirun -np 1 ./ex1.out -snes_view
+
+mpirun -np 1 ./ex1.out -help
+
+mpirun -np 1 ./ex1.out -snes_monitor -snes_view
+
+mpirun -np 1 ./ex1.out -snes_type newtontr -snes_monitor -snes_view
+
+mpirun -np 2 ./ex1.out -ksp_type richardson -pc_type asm \
+  -pc_asm_blocks 4 -pc_asm_overlap 0 -pc_asm_local_type additive \
+  -sub_pc_type lu \
+  -snes_monitor_short -snes_converged_reason -snes_view \
+  -log_view
+```
+
+输出中使用`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`区分不同的调试
 

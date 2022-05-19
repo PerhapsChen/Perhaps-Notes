@@ -10,7 +10,7 @@
 
 **其中ex1~5为tutorial中的例程，太乙任务脚本为对应练习中的`ty_script`，输出均在对应的`$LSB_JOBID.out`文件中** 
 
-
+------
 
 ### **ex1-demo**
 
@@ -49,7 +49,7 @@ mpirun -np 2 ./ex1.out -ksp_type richardson -pc_type asm \
 
 输出文件`3733712-petsc.out`中使用`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`区分不同的调试
 
-
+------
 
 ### ex2-basic
 
@@ -91,7 +91,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 | **MPI_Barrier()**                            | 阻塞，等待所有进程运行至此                                   |
 | **PetscFinalize()**                          | 终止PETSc程序                                                |
 
-
+------
 
 ### ex3-vec-viewer
 

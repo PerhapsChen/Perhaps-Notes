@@ -291,8 +291,31 @@ PC Object: 5 MPI processes
 # 编译链接
 make q1.out
 
-# 分配5个进程， 使用命令行 -n 指定矩阵的维度，通过-log_view查看程序表现
-mpirun -np 5 ./q1.out -n 50 -log_view> $LSB_JOBID.log 2>&1
+mkdir $LSB_JOBID.log
+# 分配np个进程， 使用命令行 -n 指定矩阵的维度，通过-log_view查看程序表现
+mpirun -np 1 ./q1.out -n 1024 -log_view> $LSB_JOBID.log/np1_n1024.log 2>&1
+mpirun -np 1 ./q1.out -n 2048 -log_view> $LSB_JOBID.log/np1_n2048.log 2>&1
+mpirun -np 1 ./q1.out -n 4096 -log_view> $LSB_JOBID.log/np1_n4096.log 2>&1
+
+mpirun -np 2 ./q1.out -n 1024 -log_view> $LSB_JOBID.log/np2_n1024.log 2>&1
+mpirun -np 2 ./q1.out -n 2048 -log_view> $LSB_JOBID.log/np2_n2048.log 2>&1
+mpirun -np 2 ./q1.out -n 4096 -log_view> $LSB_JOBID.log/np2_n4096.log 2>&1
+
+mpirun -np 4 ./q1.out -n 1024 -log_view> $LSB_JOBID.log/np4_n1024.log 2>&1
+mpirun -np 4 ./q1.out -n 2048 -log_view> $LSB_JOBID.log/np4_n2048.log 2>&1
+mpirun -np 4 ./q1.out -n 4096 -log_view> $LSB_JOBID.log/np4_n4096.log 2>&1
+
+mpirun -np 8 ./q1.out -n 1024 -log_view> $LSB_JOBID.log/np8_n1024.log 2>&1
+mpirun -np 8 ./q1.out -n 2048 -log_view> $LSB_JOBID.log/np8_n2048.log 2>&1
+mpirun -np 8 ./q1.out -n 4096 -log_view> $LSB_JOBID.log/np8_n4096.log 2>&1
+
+mpirun -np 16 ./q1.out -n 1024 -log_view> $LSB_JOBID.log/np16_n1024.log 2>&1
+mpirun -np 16 ./q1.out -n 2048 -log_view> $LSB_JOBID.log/np16_n2048.log 2>&1
+mpirun -np 16 ./q1.out -n 4096 -log_view> $LSB_JOBID.log/np16_n4096.log 2>&1
+
+mpirun -np 32 ./q1.out -n 1024 -log_view> $LSB_JOBID.log/np32_n1024.log 2>&1
+mpirun -np 32 ./q1.out -n 2048 -log_view> $LSB_JOBID.log/np32_n2048.log 2>&1
+mpirun -np 32 ./q1.out -n 4096 -log_view> $LSB_JOBID.log/np32_n4096.log 2>&1
 ```
 
 **输出的解释**
@@ -300,44 +323,58 @@ mpirun -np 5 ./q1.out -n 50 -log_view> $LSB_JOBID.log 2>&1
 ```bash
 # 迭代求解的过程
 iteration : 0	Residual: 2.23607
-iteration : 100	Residual: 0.000298519
-iteration : 200	Residual: 7.48137e-05
-iteration : 300	Residual: 3.32682e-05
-iteration : 400	Residual: 1.85627e-05
+iteration : 10000	Residual: 2.99985e-08
+iteration : 20000	Residual: 7.49981e-09
+iteration : 30000	Residual: 3.33328e-09
+
 ......省略......
-iteration : 3000	Residual: 9.84102e-12
-iteration : 3100	Residual: 5.5671e-12
-iteration : 3200	Residual: 3.14948e-12
-iteration : 3300	Residual: 1.78213e-12
-iteration : 3400	Residual: 1.00897e-12
-iteration : 3500	Residual: 5.69766e-13
-iteration : 3600	Residual: 3.23741e-13
+iteration : 3410000	Residual: 2.37588e-13
+iteration : 3420000	Residual: 2.36255e-13
+iteration : 3430000	Residual: 2.34035e-13
+iteration : 3440000	Residual: 2.33591e-13
+iteration : 3450000	Residual: 2.30926e-13
+iteration : 3460000	Residual: 2.29594e-13
+iteration : 3470000	Residual: 2.27374e-13
+iteration : 3480000	Residual: 2.26485e-13
+iteration : 3490000	Residual: 2.23821e-13
 
 # 矩阵信息及迭代相关信息
-*****The size of matrix is : (50, 50) 	#矩阵维度
-*****The iteration times: 3666			#迭代次数
+*****The size of matrix is : (4096, 4096) 	#矩阵维度
+*****The iteration times: 3495141			#迭代次数
 *****Absolute tolerance: 2.22045e-13	#tolerance
 *****break residual: 2.21601e-13		#最后退出迭代时的残差
 
 # 矩阵的最大特征值和对应特征向量
-*****The max eigen value of Matrix: 3.99621
+*****The max eigen value of Matrix: 4
 *****and the coressponding eigen vector:
-Vec Object: 5 MPI processes
+Vec Object: 8 MPI processes
   type: mpi
 Process [0]
-0.0121923
--0.0243383
-0.036392
--0.0483076
-0.0600398
+3.12932e-05
+-6.25863e-05
+9.38793e-05
+-0.000125172
+0.000156465
 ......
 Process [1]
 ......
+......
+Process [7]
 ......
 
 # 通过 -log_view 得到的程序表现
 ......
 ```
+
+**通过-log_view查看不同的矩阵规模和处理器个数的性能，如下表所示，单位GFlop/sec**
+
+| 矩阵规模 | 1核   | 2核   | 4核   | 8核   | 16核  | 32核  |
+| -------- | ----- | ----- | ----- | ----- | ----- | ----- |
+| 1024     | 1.203 | 0.927 | 0.758 | 0.869 | 0.865 | 0.796 |
+| 2048     | 1.309 | 1.409 | 1.326 | 1.540 | 1.637 | 1.610 |
+| 4096     | 1.350 | 1.820 | 2.184 | 2.697 | 2.596 | 3.024 |
+
+可以发现当矩阵规模较大时，MPI并行能有效提高计算效率
 
 ------
 

@@ -295,9 +295,9 @@ make q1.out
 mpirun -np 5 ./q1.out -n 50 -log_view> $LSB_JOBID.log 2>&1
 ```
 
-输出的解释
+**输出的解释**
 
-```python
+```bash
 # 迭代求解的过程
 iteration : 0	Residual: 2.23607
 iteration : 100	Residual: 0.000298519

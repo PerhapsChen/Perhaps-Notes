@@ -299,11 +299,11 @@ mpirun -np 5 ./q1.out -n 50 -log_view> $LSB_JOBID.log 2>&1
 
 ```bash
 # 迭代求解的过程
-iteration : 0	Residual: 2.23607
-iteration : 100	Residual: 0.000298519
-iteration : 200	Residual: 7.48137e-05
-iteration : 300	Residual: 3.32682e-05
-iteration : 400	Residual: 1.85627e-05
+iteration : 0		Residual: 2.23607
+iteration : 100		Residual: 0.000298519
+iteration : 200		Residual: 7.48137e-05
+iteration : 300		Residual: 3.32682e-05
+iteration : 400		Residual: 1.85627e-05
 ......省略......
 iteration : 3000	Residual: 9.84102e-12
 iteration : 3100	Residual: 5.5671e-12
@@ -314,9 +314,9 @@ iteration : 3500	Residual: 5.69766e-13
 iteration : 3600	Residual: 3.23741e-13
 
 # 矩阵信息及迭代相关信息
-*****The size of matrix is : (50, 50) 	#矩阵维度
+*****The size of matrix is : (50, 50) 		#矩阵维度
 *****The iteration times: 3666			#迭代次数
-*****Absolute tolerance: 2.22045e-13	#tolerance
+*****Absolute tolerance: 2.22045e-13		#tolerance
 *****break residual: 2.21601e-13		#最后退出迭代时的残差
 
 # 矩阵的最大特征值和对应特征向量

@@ -12,6 +12,8 @@
 
 **其中ex1~5为tutorial中的例程，太乙任务脚本为对应练习中的`ty_script`，输出均在对应的`$LSB_JOBID.log`文件中** 
 
+**Q1,Q2 为两个题目的解答，源代码为q1.c和q2.c ，太乙脚本输出为各自文件夹内的.log文件**
+
 ------
 
 ### **ex1-demo**
@@ -50,8 +52,6 @@ mpirun -np 2 ./ex1.out -ksp_type richardson -pc_type asm \
   -snes_monitor_short -snes_converged_reason -snes_view \
   -log_view
 ```
-
-输出文件`.log`中使用`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`区分不同的调试
 
 ------
 
@@ -131,7 +131,7 @@ mpirun -np 4 ./ex3.out -n 20
 | **VecSetFromOptions()**                      | 指定vec可以被命令行FLAG配置                                  |
 | **VecGetOwnershipRange()**                   | 获得vec所分配给各进程的初始和结束索引                        |
 | **VecSetValues()**                           | 设置vec中元素的值，可以指定设置元素的个数，元素的索引，元素的值，以及元素是赋值INSERT还是自增ADD |
-| **VecAssemblyBegin() VecAssemblyEnd()**      | 组装向量                                                     |
+| **VecAssemblyBegin() VecAssemblyEnd()**      | 组装向量，然后才可以view向量                                 |
 | **VecView()**                                | 查看一个vec，可以选择查看的方法                              |
 | **VecGetLocalSize()**                        | 获得vec在当前进程的本地长度n_local                           |
 | **VecGetArray()**<br />**VecRestoreArray()** | 将数组作为vec的存储地址，可以通过操作数组对vec赋值<br />当不需要通过数组操作时候，调用VecRestoreArray()释放。 |
@@ -277,4 +277,71 @@ PC Object: 5 MPI processes
 | **VecAXPY()**               | 执行特定的向量加法，程序中是 x = -1.0*u+x 即求残差           |
 | **VecNorm()**               | 求向量的范数，可以设置为1范数或者2范数等                     |
 | **KSPGetIterationNumber()** | 获得求解器的迭代次数                                         |
+
+------
+
+### 1.1
+
+**幂迭代求三对角矩阵的最大特征向量和对应的特征值**，源代码见`q1.c`
+
+**输入的解释（通过太乙脚本）**
+
+```bash
+# ......
+# 编译链接
+make q1.out
+
+# 分配5个进程， 使用命令行 -n 指定矩阵的维度，通过-log_view查看程序表现
+mpirun -np 5 ./q1.out -n 50 -log_view> $LSB_JOBID.log 2>&1
+```
+
+输出的解释
+
+```python
+# 迭代求解的过程
+iteration : 0	Residual: 2.23607
+iteration : 100	Residual: 0.000298519
+iteration : 200	Residual: 7.48137e-05
+iteration : 300	Residual: 3.32682e-05
+iteration : 400	Residual: 1.85627e-05
+......省略......
+iteration : 3000	Residual: 9.84102e-12
+iteration : 3100	Residual: 5.5671e-12
+iteration : 3200	Residual: 3.14948e-12
+iteration : 3300	Residual: 1.78213e-12
+iteration : 3400	Residual: 1.00897e-12
+iteration : 3500	Residual: 5.69766e-13
+iteration : 3600	Residual: 3.23741e-13
+
+# 矩阵信息及迭代相关信息
+*****The size of matrix is : (50, 50) 	#矩阵维度
+*****The iteration times: 3666			#迭代次数
+*****Absolute tolerance: 2.22045e-13	#tolerance
+*****break residual: 2.21601e-13		#最后退出迭代时的残差
+
+# 矩阵的最大特征值和对应特征向量
+*****The max eigen value of Matrix: 3.99621
+*****and the coressponding eigen vector:
+Vec Object: 5 MPI processes
+  type: mpi
+Process [0]
+0.0121923
+-0.0243383
+0.036392
+-0.0483076
+0.0600398
+......
+Process [1]
+......
+......
+
+# 通过 -log_view 得到的程序表现
+......
+```
+
+------
+
+### 1.2
+
+
 

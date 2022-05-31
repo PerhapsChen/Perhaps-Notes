@@ -6,9 +6,9 @@
 
 下载paraview，进入bin目录执行paraview可执行文件
 
-![image-20220531095903982](http://perhaps-1306015279.cosgz.myqcloud.com/image-20220531095903982.png)
+![image-20220531224447038](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531224447038.png)
 
-![image-20220531102922079](http://perhaps-1306015279.cosgz.myqcloud.com/image-20220531102922079.png)
+![image-20220531224004400](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531224004400.png)
 
 ### 2.
 
@@ -31,17 +31,15 @@ TARGET_LINK_LIBRARIES( vtkdemo ${VTK_LIBRARIES} )
 
 进入build文件夹，执行 `cmake .. && make`
 
-![image-20220531172536559](../AppData/Roaming/Typora/typora-user-images/image-20220531172536559.png)
+![](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531224553707.png)
 
 执行 `vtkdemo`可执行文件，生成`te-linear.vtk`文件，在paraview中打开，如题目1中所示。
-
-
 
 **代码主要做的事情是：根据5个点的坐标及其索引，生成2个四面体，然后将这2个四面体附加到grid中，并输出为vtk文件**
 
 以下是主要.cpp文件中的相关解释
 
-
+![code1](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/code1.png)
 
 ### 3.
 
@@ -79,7 +77,7 @@ GlobalNodeID 1 5 int		# 字段名，范围，数据类型
 
 生成的.vtk文件用paraview打开 (n=7)
 
-
+![image-20220531224937536](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531224937536.png)
 
 源码如下，相关解释见注释
 

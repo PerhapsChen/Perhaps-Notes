@@ -8,9 +8,9 @@
 
 ![image-20220531224447038](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531224447038.png)
 
--
-
 ![image-20220531225443634](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531225443634.png)
+
+------
 
 ### 2.
 
@@ -43,6 +43,8 @@ TARGET_LINK_LIBRARIES( vtkdemo ${VTK_LIBRARIES} )
 
 ![code1](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/code1.png)
 
+------
+
 ### 3.
 
 针对.vtk文件每一行的解释
@@ -74,6 +76,8 @@ FIELD FieldData 1			# 字段数据 1个
 GlobalNodeID 1 5 int		# 字段名，范围，数据类型
 1 2 3 4 5 					# 数据
 ```
+
+------
 
 ### 4.
 

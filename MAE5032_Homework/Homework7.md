@@ -10,7 +10,7 @@
 
 进入paraview
 
-![image-20220531225443634](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531225443634.png)
+![image-20220531230156971](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531230156971.png)
 
 ------
 

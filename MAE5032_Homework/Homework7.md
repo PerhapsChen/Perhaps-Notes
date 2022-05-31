@@ -8,6 +8,8 @@
 
 ![image-20220531224447038](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531224447038.png)
 
+进入paraview
+
 ![image-20220531225443634](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/image-20220531225443634.png)
 
 ------

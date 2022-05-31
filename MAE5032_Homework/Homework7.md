@@ -89,7 +89,7 @@ GlobalNodeID 1 5 int		# 字段名，范围，数据类型
 
 源码如下，相关解释见注释
 
+
+
 ![code2](https://perhaps-1306015279.cos.ap-guangzhou.myqcloud.com/code2.png)
-
-
 
